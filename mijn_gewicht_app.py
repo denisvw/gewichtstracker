@@ -35,7 +35,8 @@ datum = st.date_input("📅 Datum", datetime.today())
 
 if st.button("✅ Gewicht loggen"):
     df = load_data()
-    df = df.append({"Datum": datum, "Gewicht": gewicht}, ignore_index=True)
+    nieuwe_rij = pd.DataFrame([{"Datum": datum, "Gewicht": gewicht}])
+    df = pd.concat([df, nieuwe_rij], ignore_index=True)
     df = df.drop_duplicates(subset="Datum", keep="last").sort_values("Datum")
     save_data(df)
     st.success(f"{gewicht} kg geregistreerd voor {datum.strftime('%d-%m-%Y')}")
